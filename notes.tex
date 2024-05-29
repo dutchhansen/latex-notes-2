@@ -1,0 +1,164 @@
+\documentclass[12pt]{scrartcl} % change to 'article' for standard fonts
+\usepackage{notes}
+\input{macros.tex}
+
+\usepackage{geometry}
+\geometry{left=.75in, right=.75in, top=1in, bottom=1in}
+
+%%Optional packages
+% \usepackage{tikz}
+% \usepackage{float}
+% \usepackage{algorithm}
+% \usepackage{algpseudocode}
+% \usepackage{natbib}
+% \usepackage{graphicx}
+
+%%Editing
+\usepackage{color-edits}
+\addauthor[Dutch]{d}{cyan}
+
+%%Document setup
+\title{Title: Notes on a topic}
+\author{\textsc{Author name}}
+\date{\normalsize{Season year}}
+
+\begin{document}
+
+\maketitle
+
+Brief description of the notes. Some filler content provided, which comes from a combination of my own notes and those of Trevor Leslie (Illinois Institute of Technology).
+
+\pagebreak
+
+\tableofcontents
+
+\pagebreak
+
+\section{Topological concepts in a metric space}
+
+\subsection{Sequences of functions}
+
+We restrict our attention to real-valued functions; nearly all of theses statements and proofs continue to hold (with minor alterations) if $\R$ is replaced with any complete metric space.
+
+\begin{definition}[Pointwise convergence]
+    Let $X$ be any set, and let $(f_n)_{n=1}^{\infty}$ be a sequence of real-valued functions defined on $X$. If for each $x \in E$, the limit $\lim_{n \to \infty}f_n(x)$ exists, then we can defined the (pointwise) limit function \[f(x) = \lim_{n \to \infty}f_n(x),\] for each $x \in E$. In this case, we say that $(f_n)_{n=1}^{\infty}$ \textit{converges pointwise} to $f$ on $E$.
+\end{definition}
+
+\begin{example}
+    For each $n \in \N$, define $f_n : [0,1] \to \R$ by $f_n(x) = x^n$. Then for $x \in [0,1)$, we have $\lim_{n\to \infty}f_n(x) = 0$, while $\lim_{n \to \infty}f_n(1) = 1$, so the pointwise limit funciton is given by \[f(x) = \begin{cases}
+        1 &x=1\\
+        0 &x \in [0, 1).
+    \end{cases}\] Clearly the limit function is not continuous at $x = 1$, even though all the $f_n$'s are continuous everywhere.
+\end{example}
+
+\begin{definition}[Uniform convergence]
+    Let $(X, d_X)$ and $(Y, d_Y)$ be metric spaces; let $f_n : X \to Y$ be functions. We say that $(f_n)_{n=1}^{\infty}$ \textit{converges uniformly} to a function $f: X \to Y$ on $E \subset X$ if for every $\eps > 0$, there exists $N \in \N$ such that $n \geq N$ implies $d_Y(f_n(x), f(x)) < \eps$ for all $x \in E$.
+\end{definition}
+
+It is fairly clear that uniform convergence implies pointwise convergence, and that the converse is not true.
+
+\begin{proposition}
+    Assume $f_n \to f$ pointwise on $E$, and put \[M_n = \sup_{x \in E}|f_n(x) - f(x)|.\] Assume additionally that $M_n < + \infty$ for all $n \in \N$. Then $f_n \to f$ uniformly on $E$ if and only if $M_n \to 0$ as $n \to \infty$.
+\end{proposition}
+
+\begin{example}
+    If $f_n(x) = x^n$ for all $n \in \N$ and $x \in \R$, then $f_n \to 0$ pointwise on $[0,1)$, as we have seen above. The situation with regard to uniform convergence is more subtle. It turns out that \begin{itemize}
+        \item $f_n \to 0$ uniformly on $[0,c]$ for any $c \in (0,1)$, but
+        \item $(f_n)$ does not converge uniformly on $[0,1)$.
+    \end{itemize}
+
+    \begin{proof}
+        Choose $c \in (0,1)$ and $\eps > 0$. Then $M_n = \sup_{x \in [0,c]}|x^n - 0| = c^n$ tends to zero as $n \to \infty$, so $f_n \to 0$ uniformly on $[0,c]$.
+
+        If $(f_n)$ were to converge uniformly on $[0,1)$ to some funciton $f$, then it would also converge pointwise to that function. It follows that if $f_n \to f$ on $[0,1)$, then $f(x) = 0$ for all $x \in [0,1)$, as we already know $f_n \to 0$ pointwise on $[0,1)$. However, $\wt{M}_n = \sup_{x \in [0,1)}|x^n - 0| = 1$, which does not tend to zero as $n \to \infty$. Therefore, $(f_n)$ does not converge uniformly to $0$ (or to any function, for that matter) on $[0,1)$.
+    \end{proof}
+\end{example}
+
+\subsubsection{Uniform convergence and the vector space $B(X)$}
+
+Recall that if $X$ is any set, then $(B(X), \|\cdot\|_u)$ denotes the vector space of all bounded, real-valued functions on $X$, together with the supremum norm \[\|f\|_u = \sup_{x \in X}|f(x)|.\] Recall also that we can make any vector space norm into a metric in the canonical way. Therefore, we can consider $B(C)$ as a metric space, with metric $d_u(f, g) = \|f-g\|_u = \sup_{x \in X}|f(x) - g(x)|$. Unless otherwise stated, we always give $B(X)$ this metric.
+
+\begin{proposition}
+    Let $(f_n)$ be a sequence of bounded functions on a set $X$; let $f$ be another funciton in $B(X)$. Then $f_n \to f$ uniformly on $X$ if and only if $f_n \to f$ in $B(X)$.
+\end{proposition}
+
+\begin{exercise}
+    A collection $\CA$ of real-valued functions on a set $E$ is said to be \textit{uniformly bounded} on $E$ if there exists $M > 0$ such that $|f(x)| < M$ for all $x \in E$, for all $f \in \CA$. Let $(f_n)$ be a sequence of bounded functions which converges uniformly on $E$ to a limit function $f$. Prove that $\{f_n\}_{n=1}^{\infty}$ is a uniformly bounded subset of $(B(X), d_u)$.
+\end{exercise}
+
+\begin{proposition}
+    Let $(f_n)_{n=1}^{\infty}$ and $(g_n)_{n=1}^{\infty}$ be sequences of real-valued functions on a set $E$, which converge uniformly on $E$ to limit functions $f$ and $g$, respectively. \begin{enumerate}
+        \item $(f_n + g_n)_{n=1}^{\infty}$ converges uniformly to $f + g$ on $E$.
+        \item If each $f_n$ and each $g_n$ is bounded, show that $(f_n g_n)_{n=1}^{\infty}$ converges uniformly to $fg$ on $E$.
+    \end{enumerate}
+\end{proposition}
+
+\subsubsection{Uniformly Cauchy sequences and completeness of $B(X)$}
+
+\begin{definition}[Uniformly Cauchy]
+    The sequence $(f_n)_{n=1}^{\infty}$ of real-valued functions on a set $X$ is said to be \textit{uniformly Cauchy} on $E \subset X$ if for every $\eps > 0$, there exists $N \in \N$ such that $m \geq n \geq N$ implies $|f_m(x) - f_n(x)| < \eps$ for all $x \in E$.
+\end{definition}
+
+Clearly, this definition is equivalent to the requirement that for every $\eps > 0$, there exists $N \in \N$ such that $d_u(f_n, f_m) = \sup_{x \in E}|f_n(x) - f_m(x)| < \eps$ whenever $m \geq n \geq N$. If $(f_n)_{n=1}^{\infty}$ is a sequence in $B(X)$, this requirement just says that $(f_n)_{n=1}^{\infty}$ is Cauchy in $B(E)$. We record this observtion in the following proposition.
+
+\begin{proposition}
+    If $(f_n)_{n=1}^{\infty}$ is a Cauchy sequence in $B(X)$, then $(f_n)_{n=1}^{\infty}$ is uniformly Cauchy on $X$.
+\end{proposition}
+
+\begin{theorem}
+    Let $(f_n)_{n=1}^{\infty}$ be a sequence of real-valued functions on a set $X$. Then $(f_n)_{n=1}^{\infty}$ converges uniformly on $E \subset X$ if and only if it is uniformly Cauchy on $E$.
+\end{theorem}
+
+\begin{proof}
+    ($\implies$) Assume that $(f_n)_{n=1}^{\infty}$ converges uniformly on $E$, and let $f$ denote the limit function. Choose $\eps > 0$, then choose $N$ large enough to that $n \geq N$ implies $|f_n(x) - f(x)| < \eps / 2$ for all $x \in E$. Then $m \geq n \geq N$ implies that \[|f_m(x) - f_n(x)| \leq |f_m(x) - f(x)| + |f(x) - f_n(x)| < \frac{\eps}{2} + \frac{\eps}{2} = \eps.\] Thus, $(f_n)_{n=1}^{\infty}$ is uniformly Cauchy on $E$.
+
+    ($\impliedby$) Assume that $(f_n)_{n=1}^{\infty}$ is uniformly Cauchy on $E$. By the completeness of $\R$, $(f_n(x))_{n=1}^{\infty}$ converges to some number; we can therefore define a pointwise limit function $f(x)$. We need to show that $(f_n)_{n=1}^{\infty}$ converges uniformly to $f$ on $E$. To this end, pick $\eps > 0$. Choose $N$ large enough so that $m \geq n \geq N$ implies $|f_m(x) - f_n(x)| < \eps / 2$ for all $x \in E$. Now choose some $n \geq N$ and observe that \[|f(x) - f_n(x)| = \lim_{m \to \infty}|f_m(x) - f_n(x)| \leq \lim_{m \to \infty} \eps / 2 = \eps / 2 < \eps,\] for all $x \in E$. Thus, $f_n \to f$ unifromly on $E$.
+\end{proof}
+
+\begin{theorem}[Completeness of $B(X)$]
+    For any set $X$, the metric space $(B(x), d_u)$ is complete.
+\end{theorem}
+
+\begin{proof}
+    Let $(f_n)_{n=1}^{\infty}$ be a Cauchy sequence in $(B(X), d_u)$. Then $(f_n)_{n=1}^{\infty}$ is uniformly Cauchy, so it converges uniformly (and pointwise) to some function $f$. We need to show that $f \in B(X)$, that is, $f$ is bounded. Choose $N \in \N$ such that $f_N(x) - f(x)| < 1$ for all $x \in X$. Then choose $M > 0$ so that $f_N(x)| \leq M$ for all $x \in X$. Then for all $x \in X$, we have \[|f(x)| \leq |f(x) - f_N(x)| + |f_N(x)| < 1 + M.\] So $f$ is bounded, as claimed.
+\end{proof}
+
+\subsubsection{Uniform limit theorem and completeness of $BC(X)$}\label{subsubsec:uniform-limit-theorem}
+
+\begin{theorem}[Uniform limit theorem, version 1]
+    Let $(f_n)_{n=1}^{\infty}$ be a sequence of continuous real-valued functions on the metric space $(X, d)$. Assume $f : E \to \R$ is a function such that $f_n \to f$ uniformly on $E \subset X$. Then $f$ is continuous.
+\end{theorem}
+
+\begin{proof}
+    Choose $\eps > 0$ and $x \in E$. We need to show $\exists \delta > 0$ such that $|f(x) - f(y)| < \eps$ whenever $d(x, y) < \delta$ and $y \in E$. In light of the inequality, \[|f(x) - f(y)| \leq |f(x) - f_N(x)| + |f_N(x) - f_N(y)| + |f_N(y) - f(y)|\] (which is valid for any $N \in \N$), we break up the task into three parts, making each of the three terms above less than $\eps / 3$.
+
+    Choose $N$ large enough so that $|f(z) - f_N(z)| < \eps / 3$ for all $z \in E$. THen, for this same $N$, choose $\delta > 0$ small enough so that $d(x, y) < \delta$ and $y \in E$ together imply that $|f_N(x) - f_N(y)| < \eps/3$. Then for $y \in E$ such that $d(x, y) < \delta$, we have \[|f(x) - f(y)| \leq |f(x) - f_N(x)| + |f_N(x) - f_N(y)| + |f_N(y) - f(y)| \leq \frac{\eps}{3} + \frac{\eps}{3} + \frac{\eps}{3} = \eps.\]
+\end{proof}
+
+\begin{definition}
+    Let $(X, d)$ be a metric space. The space $(BC(X), d_u)$ is complete.
+\end{definition}
+
+\begin{proof}
+    To prove the statement, it suffices to show that $BC(X)$ is a closed subset of the complete metric space $B(X)$. Let $f$ be a limit point of $BC(X)$ with respect to $B(X)$. Then there exists a sequence $(f_n)_{n=1}^{\infty}$ in $BC(X)$ that converges in $B(X)$ to $f$. Since $f_n \to f$ uniformly and each $f_n$ is continuous, we have by the uniform limit theorem that $f$ is continuous as well. This implies that $f \in BC(X)$, as needed.
+\end{proof}
+
+This is a special case of the theorem, but it serves as a nice introduction. We now state the result in its entirety.
+
+\begin{theorem}[Uniform limit theorem, version 2]
+    Let $(X, d)$ be a metric space. Let $E$ be a subset of $X$; let $(f_n)_{n=1}^{\infty}$ be a sequence of real-valued functions on $E$ which converge uniformly to another function $f : E \to \R$. Let $x$ be a limit point of $E$, and assume that for each $n \in \N$, the limit $\lim_{t \to x}f_n(t)$ exists and is equal to some number $A_n$. Then the sequence $(A_n)$ of numbers converges, and \[\lim_{t \to x}f(t) = \lim_{n \to \infty} A_n.\] That is, \[\lim_{t \to x} \left(\lim_{n \to \infty} f_n(t) \right) = \lim_{n \to \infty} \left(\lim_{t \to x} f_n(t)\right).\]
+\end{theorem}
+
+\begin{proof}
+    (Step 1) We show that $(A_n)_{n=1}^{\infty}$ is a Cauchy sequence of numbers (and therefore converges in $\R$ as $n \to \infty$, since $\R$ is complete). To this end, choose $\eps > 0$. Since $(f_n)_{n=1}^{\infty}$ converges uniformly, it is uniformly Cauchy. Choose $N \in \N$ large enough so that $m \geq n \geq N$ implies that $|f_m(t) - f_n(t)| < \frac{\eps}{3}$ for all $t \in X$. Given such $m, n \in \N$, choose $t_0 \in X$ such that $|f_n(t_0) - A_n|$ and $|f_m(t_0) - A_m|$ are both less than $\frac{\eps}{3}$ (this is possible by choosing $t_0$ close enough to $x$). Then \[|A_n - A_m| \leq |A_n - f_n(t_0)| + |f_n(t_0) - f_m(t_0)| + |f_m(t_0) - A_m| < \eps.\] Let $A$ denote the limit in $\R$ of the $A_n$'s.
+
+    (Step 2) We prove the desired equality of limits. To this end, choose $\eps > 0$, then choose $n \in \N$ such that $|f_n(t) - f(t)| < \frac{\eps}{3}$ for all $t \in X$, and such that $|A_n - A| < \frac{\eps}{3}$. For this $n$, let $\delta > 0$ be such that $d(t, x) < \delta$ implies $|f_n(t) - A_n| < \frac{\eps}{3}$. Then $d(t, x) < \delta$ implies \[|f(t) - A| \leq |f(t) - f_n(t)| + |f_n(t) - A_n| + |A_n - A| < \eps.\] This completes the proof.
+\end{proof}
+
+
+\pagebreak
+
+\textit{This page is left blank intentionally.}
+
+\end{document}
+
